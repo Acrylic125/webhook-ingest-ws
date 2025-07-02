@@ -271,6 +271,9 @@ func main() {
 			return
 		}
 
+		headers := r.Header
+		fmt.Println("Headers:", headers)
+
 		// fmt.Println("Received data:", string(body))
 		verify := TokenPairWebhookBody{}
 		if err := json.Unmarshal(body, &verify); err != nil {
