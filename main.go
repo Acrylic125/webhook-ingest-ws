@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -157,9 +158,12 @@ func main() {
 
 		// SHA 256 hash "<secret><deduplicationId>"
 		secret := "hello world"
-		hash := sha256.Sum256([]byte(secret + verify.DeduplicationID))
-		if !bytes.Equal(hash[:], []byte(verify.Hash)) {
-			fmt.Println("Hash mismatch ", string(hash[:]), verify.Hash)
+		h := sha256.New()
+		h.Write([]byte(secret + verify.DeduplicationID))
+		hashInBytes := h.Sum(nil)
+		hashString := hex.EncodeToString(hashInBytes)
+		if hashString != verify.Hash {
+			fmt.Println("Hash mismatch vvvvv - ", hashString, verify.Hash)
 			http.Error(w, "Hash mismatch", http.StatusBadRequest)
 			return
 		}
