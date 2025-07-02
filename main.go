@@ -159,7 +159,7 @@ func main() {
 		secret := "hello world"
 		hash := sha256.Sum256([]byte(secret + verify.DeduplicationID))
 		if !bytes.Equal(hash[:], []byte(verify.Hash)) {
-			fmt.Println("Hash mismatch")
+			fmt.Println("Hash mismatch ", string(hash[:]), verify.Hash)
 			http.Error(w, "Hash mismatch", http.StatusBadRequest)
 			return
 		}
