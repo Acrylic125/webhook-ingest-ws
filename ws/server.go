@@ -53,7 +53,7 @@ func (c *UserClient[T]) readPump(hubManager HubManager[T]) {
 			break
 		}
 
-		if err := hubManager.OnReceiveMessage(messageBytes); err != nil {
+		if err := hubManager.OnReceiveMessage(c, messageBytes); err != nil {
 			log.Warn().Err(err).Msg("HandleMessage error")
 			continue
 		}
@@ -90,7 +90,7 @@ func (c *UserClient[T]) readPump(hubManager HubManager[T]) {
 }
 
 type HubManager[T any] interface {
-	OnReceiveMessage(message []byte) error
+	OnReceiveMessage(client *UserClient[T], message []byte) error
 	OnRegister(client *UserClient[T]) error
 	OnUnregister(client *UserClient[T]) error
 	GetHub() *Hub[T]
@@ -117,6 +117,13 @@ type Hub[T any] struct {
 	broadcast  chan []byte
 	register   chan *UserClient[T]
 	unregister chan *UserClient[T]
+}
+
+func (h *Hub[T]) Broadcast(message []byte) {
+	h.clients.Each(func(client *UserClient[T]) bool {
+		client.Send(message)
+		return true
+	})
 }
 
 var ServerHub *Hub[any]
@@ -149,11 +156,7 @@ func Run[T any](hubManager HubManager[T]) {
 				}
 			}
 		case message := <-c.broadcast:
-			c.clients.Each(func(client *UserClient[T]) bool {
-				log.Info().Str("message", string(message)).Msgf("Sending message to client: %v", client)
-				client.Send(message)
-				return true
-			})
+			c.Broadcast(message)
 		}
 	}
 }
