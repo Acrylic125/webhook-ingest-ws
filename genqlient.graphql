@@ -1,0 +1,17 @@
+mutation CreateWebhooks(
+  $input: CreateWebhooksInput!,
+) {
+  createWebhooks(
+    input: $input) {
+    tokenPairEventWebhooks {
+      id
+      name
+      callbackUrl
+      status
+      groupId
+      bucketId
+      bucketSortkey
+      publishingType
+    }
+  }
+}

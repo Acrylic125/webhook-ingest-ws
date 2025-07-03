@@ -1,0 +1,29 @@
+# IDE
+.vscode
+.idea
+
+# TMP
+.tmp
+tmp
+
+# Keys
+keys
+*.key
+*.pub
+
+# MacOS
+.DS_Store
+
+# Build
+.build/
+main
+
+# Local Secrets
+settings/secrets_local.json
+settings/config_local.json
+
+# Test
+cmd/test
+
+# Env
+.env

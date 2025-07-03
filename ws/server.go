@@ -57,35 +57,6 @@ func (c *UserClient[T]) readPump(hubManager HubManager[T]) {
 			log.Warn().Err(err).Msg("HandleMessage error")
 			continue
 		}
-
-		// Try to parse as structured message first
-		// var message Message
-		// if err := json.Unmarshal(messageBytes, &message); err == nil {
-		// 	// Handle structured message
-		// 	switch message.Type {
-		// 	case MessageTypeFilter:
-		// 		// Update client keywords
-		// 		c.keywords = message.Keywords
-		// 		fmt.Printf("Client updated keywords: %v\n", c.keywords)
-
-		// 		// Send confirmation back to client
-		// 		response := Message{
-		// 			Type:    MessageTypeFilter,
-		// 			Content: fmt.Sprintf("Keywords updated to: %v", c.keywords),
-		// 		}
-		// 		responseBytes, _ := json.Marshal(response)
-		// 		c.send <- responseBytes
-
-		// 	case MessageTypeChat:
-		// 		// Broadcast chat message
-		// 		fmt.Printf("Received chat message: %s\n", message.Content)
-		// 		hub.broadcast <- []byte(message.Content)
-		// 	}
-		// } else {
-		// 	// Handle plain text message (backward compatibility)
-		// 	fmt.Printf("Received plain message: %s\n", messageBytes)
-		// 	hub.broadcast <- messageBytes
-		// }
 	}
 }
 

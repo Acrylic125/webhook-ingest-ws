@@ -108,17 +108,14 @@ func (h *HubManager) GetHub() *ws.Hub[any] {
 }
 
 func (h *HubManager) OnRegister(client *ws.UserClient[any]) error {
-	// fmt.Println("Client registered")
 	return nil
 }
 
 func (h *HubManager) OnUnregister(client *ws.UserClient[any]) error {
-	// fmt.Println("Client unregistered")
 	return nil
 }
 
 func (h *HubManager) OnReceiveMessage(client *ws.UserClient[any], message []byte) error {
-	// fmt.Println("Received message:", string(message))
 	return nil
 }
 
